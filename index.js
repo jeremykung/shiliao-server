@@ -76,14 +76,15 @@ app.get("/all", (req, res) => {
     })
 })
 
-app.get("/cold", (req, response) => {
-    let data = ['hi']
-    db.query("SELECT * FROM food WHERE property='cold'", (err, res) => {
+app.get("/property/:property", (req, res) => {
+    const property = req.params.property
+    db.query(`SELECT * FROM food WHERE property='${property}'`, (err, dbRes) => {
         if (err) {
             console.log("DB error:", err)
+            res.send(`Error searching for food type: ${property}`)
         } else {
-            console.log("DB Food Table:", res.rows)
-            response.send(res.rows)
+            console.log("DB Food Table:", dbRes.rows)
+            res.send(dbRes.rows)
         }
     })
 })
