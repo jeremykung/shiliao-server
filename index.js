@@ -76,12 +76,12 @@ app.get("/all", (req, res) => {
     })
 })
 
-app.get("/property/:property", (req, res) => {
-    const property = req.params.property
-    db.query(`SELECT * FROM food WHERE property='${property}'`, (err, dbRes) => {
+app.get("/temperature/:temperature", (req, res) => {
+    const temperature = req.params.temperature
+    db.query(`SELECT * FROM food WHERE temperature='${temperature}'`, (err, dbRes) => {
         if (err) {
             console.log("DB error:", err)
-            res.send(`Error searching for food type: ${property}`)
+            res.send(`Error searching for food type: ${temperature}`)
         } else {
             console.log("DB Food Table:", dbRes.rows)
             res.send(dbRes.rows)
@@ -94,10 +94,10 @@ app.post("/add", async (req, response) => {
     const foodData = {
         name: req.body.name.toLowerCase(),
         type: req.body.type.toLowerCase(),
-        property: req.body.property.toLowerCase()
+        temperature: req.body.temperature.toLowerCase()
     }
     try {
-        const query = `INSERT INTO food (name, type, property) VALUES ('${foodData.name}', '${foodData.type}', '${foodData.property}')`
+        const query = `INSERT INTO food (name, type, temperature) VALUES ('${foodData.name}', '${foodData.type}', '${foodData.temperature}')`
         console.log("query:", query)
         await db.query(query, (err, res) => {
             if (err) {
