@@ -122,6 +122,27 @@ app.post("/add", async (req, response) => {
 
 })
 
+// Learn how to do patch request on express
+// currently can't read req body
+
+app.patch("/patch/:id", async (req, res) => {
+    console.log('req data:', req.body)
+    const query = `UPDATE food SET name = '${req.body.name}', type = '${req.body.type}', temperature = '${req.body.temperature}' WHERE id = ${req.body.id}`
+    try {
+        const result = await db.query(query, (err, response) => {
+            if (err) {
+                console.log('DB error updating:', err)
+                res.send({ message: 'error updating' })
+            } else {
+                console.log(response)
+                res.status(200).send({ message: 'update successful' })
+            }
+        })
+    } catch (error) {
+        console.log('error updating:', error)
+    }
+})
+
 
 app.listen(port, () => {
     console.log("Server running on port 3000.")
